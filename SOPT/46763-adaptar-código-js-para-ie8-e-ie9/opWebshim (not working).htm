@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/webshim/1.15.7/minified/polyfiller.js"></script>
+    <script>
+        webshim.setOptions('basePath', '//cdnjs.cloudflare.com/ajax/libs/webshim/1.15.7/minified/shims/');
+
+        //load the filereader
+        webshim.polyfill('filereader');
+
+        //on DOM ready filereader is shimmed
+        $(function(){
+
+          $('#user-photo').on('change', function (evt) {
+            var reader, file;
+            reader = new FileReader();
+            reader.onload = function (evt) {
+                var img = new Image();
+                img.onload = function() {
+                    img.downsize({width:100});
+                    img.embed(document.getElementById("target"));
+                };
+                img.load(evt.target.result);
+            };
+
+            //use $.prop to access files property
+            file = $(this).prop('files')[0];
+            reader.readAsDataURL(file);
+          });
+
+        });
+    </script>
+</head>
+<body>
+    <form id="form1">
+        <input type="file" class="ws-filereader" id="user-photo" multiple="" accept="image/*" />
+        <div id="target"></div>
+    </form>
+</body></html>

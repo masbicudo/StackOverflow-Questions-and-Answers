@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="/libs/jquery-1.11.2.min.js"></script>
+    <script>
+        $(function() {
+function getTrsModernBrowser() {
+    var parser = new DOMParser();
+    var frag = parser.parseFromString(getTable()[0], "text/xml");
+    var xpathResult = frag.evaluate("//tr[td[text()=17]]", frag, null, XPathResult.ANY_TYPE, null);
+
+    var trs = [];
+    var result = xpathResult.iterateNext();
+    while (result) {
+        trs.push(result);
+        result = xpathResult.iterateNext();
+    }
+    return trs;
+}
+
+function getTrsIE8() {
+    var frag = new window.ActiveXObject("Microsoft.XMLDOM");
+    frag.async = "false";
+    frag.loadXML(getTable()[0]);
+    frag.setProperty("SelectionLanguage", "XPath");
+    var results = frag.selectNodes("//tr[td[text()=17]]");
+    var trs = [];
+    for (it = 0; it < results.length; it++)
+        trs.push(results[it]);
+    debugger;
+    return trs;
+}
+
+function getTrs() {
+    return window.ActiveXObject ? getTrsIE8() : getTrsModernBrowser();
+}
+
+var trs = getTrs();
+for (var itTr = 0; itTr < trs.length; itTr++) {
+    document.getElementById("content").innerHTML = encodeHtml(
+        trs[itTr].innerHTML // browsers que suportam a API DOMParser
+        || trs[itTr].xml // IE8
+    );
+}
+
+function encodeHtml(rawStr) {
+    return rawStr && rawStr.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+        return '&#' + i.charCodeAt(0) + ';';
+    });
+}
+
+function getTable() {
+    var table = ['<table>' +
+        '<tr>' +
+        '<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>11</td><td>12</td><td>13</td><td>14</td><td>15</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td>16</td><td>17</td><td>18</td><td>19</td><td>20</td>' +
+        '</tr>' +
+        '</table>'
+    ];
+    return table;
+}
+        });
+    </script>
+</head>
+<body>
+<div id="content"></div>
+</body>
+</html>

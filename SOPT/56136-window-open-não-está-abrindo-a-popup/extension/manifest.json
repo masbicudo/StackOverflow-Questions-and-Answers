@@ -1,0 +1,15 @@
+﻿        {
+          "manifest_version": 2,
+
+          "name": "Extensão de teste, com Ajax e Janela de Pop-up",
+          "description": "Extensão de teste, com Ajax e Janela de Pop-up",
+          "version": "1.0",
+
+          "browser_action": {
+            "default_popup": "popup.html"
+          },
+
+          "permissions": [
+            "http://jsfiddle.net/"
+          ]
+        }

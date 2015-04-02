@@ -1,0 +1,50 @@
+﻿        <!DOCTYPE html>
+        <html>
+        <head>
+            <script type="text/javascript" src="moxie.min.js"></script>
+            <script>mOxie.Env.swf_url = 'Moxie.swf';</script>
+            <script type="text/javascript">
+                function readURL(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new mOxie.FileReader();
+                        reader.onload = function (e) {
+                            var img = new mOxie.Image();
+                            img.onload = function() {
+                                img.downsize({width:100});
+                                var tgt = document.getElementById("target");
+                                img.embed(tgt);
+                            };
+                            img.load(e.target.result);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+            </script>
+        </head>
+        <body>
+            <form id="form1">
+                <div id="container">
+                    <a id="file-picker" href="javascript:;">Browse...</a>
+                </div>
+
+                <script>
+                    var fileInput = new mOxie.FileInput({
+                        browse_button: 'file-picker', // or document.getElementById('file-picker')
+                        container: 'container',
+                        accept: [
+                            {title: "Image files", extensions: "jpg,gif,png"} // accept only images
+                        ],
+                        multiple: true // allow multiple file selection
+                    });
+
+                    fileInput.onchange = function(e) {
+                        // do something to files array
+                        //console.info(e.target.files); // or this.files or fileInput.files
+                        readURL(this);
+                    };
+
+                    fileInput.init(); // initialize
+                </script>
+                <div id="target"></div>
+            </form>
+        </body></html>

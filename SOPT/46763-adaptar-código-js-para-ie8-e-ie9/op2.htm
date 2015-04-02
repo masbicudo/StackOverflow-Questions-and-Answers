@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="/libs/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="moxie.min.js"></script>
+    <script>mOxie.Env.swf_url = 'Moxie.swf';</script>
+
+    <script type="text/javascript">
+        $(function() {
+            $("#input_file").change(function(event) {
+                readURL(this);
+            });
+        });
+    </script>
+    <style>
+        #preview_ie {
+            FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)
+        }  
+    </style>
+    <![if gte IE 10]>
+    <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#preview').attr('src', e.target.result).show();
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    <![endif]>
+    <!--[if (gte IE 8)&(lt IE 10)]> 
+    <script type="text/javascript" src="moxie.js"></script>
+    <script>mOxie.Env.swf_url = 'Moxie.swf';</script>
+    <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new mOxie.FileReader();
+                reader.onload = function (e) {
+                    debugger;
+                    var img = new mOxie.Image();
+                    img.onload = function() {
+                        img.downsize({width:100});
+                        img.embed(document.getElementById("target"));
+                    };
+                    img.load(e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    <![endif]-->
+    <!--[if lt IE 8]> 
+    <script type="text/javascript">
+        function readURL(imgFile)
+        {
+            var newPreview = document.getElementById("preview_ie");
+            newPreview.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgFile.value;
+            newPreview.style.width = "160px";
+            newPreview.style.height = "120px";
+        }
+    </script>
+    <![endif]-->
+</head>
+<body>
+    <div id="preview_ie">
+    </div>
+    <form id="form1">
+        <input type='file' id="imgInp" onchange="readURL(this)" />
+        <img id="preview" 
+             src="" 
+             alt="" 
+             style="display:none; max-width: 160px; max-height: 120px; border: none;"/>
+        <div id="preview_ie" style="display:none;"></div>
+    </form>
+</body></html>

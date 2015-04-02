@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="/libs/jquery-1.11.2.min.js"></script>
+    <script>
+        $(function() {
+            var original = $('.form-modelo');
+            var num = 1;
+            // replace __prefix__ por num
+            // ex: name='form-__prefix__-nome' para name='form-1-nome'
+            var htmlNovo = $('<div>').append(original.clone()).html();
+            //var htmlNovo = original.html();
+            var cloneAlterado = $(htmlNovo.replace(/__prefix__/g, 1));
+            $('.form-real').append(cloneAlterado);
+        });
+    </script>
+</head>
+<body>
+    <div class='form-modelo'>
+        <input id="id_form-__prefix__-nome" name="form-__prefix__-nome" type="text">
+        <input id="id_form-__prefix__-texto" name="form-__prefix__-texto" type="text">
+    </div>
+    Clone
+    <div class='form-real'></div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="/libs/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/libs/jquery.validate-1.13.1.js"></script>
+    <link href="/libs/bootstrap-3.2.0.min.css" type="text/css" rel="stylesheet" />
+
+    <script type="text/javascript">
+    $(function() {
+        var categorias = ["Esporte", "Lazer"];
+        var noticias = [
+                {titulo:"O time ganhou",categoria:"Esporte",data:"",subtitulo:"",artigo:""},
+                {titulo:"Resort bom bonito e barato",categoria:"Lazer",data:"",subtitulo:"",artigo:""},
+                {titulo:"O outro time perdeu",categoria:"Esporte",data:"",subtitulo:"",artigo:""},
+                {titulo:"Viagens à lua não são mais sonho",categoria:"Lazer",data:"",subtitulo:"",artigo:""},
+                {titulo:"O filme do momento",categoria:"Cinema",data:"",subtitulo:"",artigo:""}
+            ];
+
+        function escreveNoticias(procura) {
+
+            var table_body = $("#lista-noticias tbody");
+            table_body.empty();
+
+            for (var i = 0; i<noticias.length; i++) {
+                var noticia = noticias[i];
+                if (categorias.indexOf(noticia.categoria)>=0) {
+                    if (categorias.indexOf(procura)>=0) {
+                        var linha = "<tr class=\"realce\"><td>" +
+                        "<span>Titulo:</span>" + noticia.titulo + "&nbsp" + "&nbsp" + "&nbsp" + "&nbsp" + "<br><br>" +
+                        "<span>Categoria:</span>" + noticia.categoria + "&nbsp" + "&nbsp" + "&nbsp" + "&nbsp" + "<br><br>" +
+                        "<span>Data:</span>" + noticia.data  +  "<br><br>" +
+                        "<span>Subtitulo</span>" + noticia.subtitulo +  "<br><br>" +
+                        "<span>Artigo:</span>" + noticia.artigo +  "<br><br>" + "</td><tr>";
+                        table_body.append(linha);
+                    }
+                }
+            }
+        }
+
+        $("#Procurar").click(function(){
+            var procura = ($("#TEXTO").val());
+            escreveNoticias(procura);
+        });
+    });
+    </script>
+</head>
+<body>
+    <input id="TEXTO"></button>
+    <button id="Procurar">Procurar</button>
+    <p>Lista de notícias</p>
+    <table id="lista-noticias"><tbody></tbody></table>
+</body>
+</html>

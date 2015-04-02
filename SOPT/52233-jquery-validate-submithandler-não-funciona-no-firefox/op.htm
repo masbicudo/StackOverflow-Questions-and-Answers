@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="/libs/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/libs/jquery.validate-1.13.1.js"></script>
+    <link href="/libs/bootstrap-3.2.0.min.css" type="text/css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        $(function() {
+        
+            jQuery.validator.addMethod("cpf", function(value, element) {
+                return (/\d{3}.\d{3}.\d{3}-\d{2}/g).test(value);
+            }, "* CPF inválido");
+            
+            $('#form_lista_amiga').validate({
+                rules : {
+                    cpf: { required: true, cpf: true }
+                },
+                submitHandler: function(form) {
+
+                    var data = $( form ).serialize();
+                    //event.preventDefault();
+                    $.ajax({
+                        url: "add.cs",
+                        type: 'POST',
+                        datatype: 'json',
+                        data: data,
+                        success: function(data){
+                            alert(data);
+                        }
+                    });  
+                    return false;
+                    
+                }
+            });
+            
+        });
+    </script>
+</head>
+<body>
+    <form id="form_lista_amiga">
+        <input id="cpf" name="cpf" />
+        <input type="submit" value="send" />
+    </form>
+</body>
+</html>

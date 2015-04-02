@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="/libs/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#btn').click(function() {
+                    $.ajax({
+                        url: 'http://jsfiddle.net/echo/html/',
+                        data: {
+                            html: '<div>Documento carregado via ajax!</div>',
+                            delay: 1
+                        },
+                        type: 'POST',
+                        success: function(data){
+                            var win = window.open(
+                                "",
+                                "Title",
+                                "toolbar=no,"+
+                                "location=no,"+
+                                "directories=no,"+
+                                "status=no,"+
+                                "menubar=no,"+
+                                "scrollbars=yes,"+
+                                "resizable=yes,"+
+                                "width=780,"+
+                                "height=200,"+
+                                "top="+(screen.height-400)+","+
+                                "left="+(screen.width-840));
+                            win.document.body.innerHTML = data;
+                        }
+                    });
+                    return false;
+                });
+        });
+    </script>
+</head>
+<body>
+    <button id="btn">Abrir conteúdo em outra janela</button>
+</body>
+</html>
