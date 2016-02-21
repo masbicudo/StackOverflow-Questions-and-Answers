@@ -1,0 +1,43 @@
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    $(function () {
+        var frag = document.createDocumentFragment();
+        var mydiv = document.getElementById('mydiv');
+        var div2 = document.getElementById('div2');
+        frag.appendChild(mydiv);
+        frag.appendChild(div2);
+        //var conteudo = "";
+        //var all = frag.querySelectorAll('*');
+        //for (var i = 0; i < all.length; i++)
+        //    if (!all[i].parentElement)
+        //        conteudo += all[i].outerHTML + "\n";
+        //$("#output").text($("#output").text() + conteudo);
+        
+        //var current = frag.querySelector('*');
+
+        //var conteudo = "";
+        //var current = frag.querySelector('*');
+        //while (current) {
+        //    conteudo += current.outerHTML + "\n";
+        //    current = current.nextSibling;
+        //}
+            
+    var conteudo = "";
+    var rootNodes = frag.children;
+    for (var i = 0; i < rootNodes.length; i++)
+        conteudo += rootNodes[i].outerHTML + "\r\n";
+
+        $("#output").text($("#output").text() + conteudo);
+
+        });
+    </script>
+</head>
+<body>
+    <div id="mydiv">mydiv<div>subdiv</div></div>
+    <div id="div2">div2</div>
+    <pre id="output"></pre>
+</body>
+</html>

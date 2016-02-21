@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="http://cdn.sstatic.net/stackoverflow/all.css?v=82ce4d210a66">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var $w = $(window),
+                wb = $w.height(),
+                arr = [];
+
+            $('*').each(function () {
+
+                var eb = $(this).offset().top + $(this).height();
+                if (eb > wb) {
+                    arr.push(this);
+                }
+
+            });
+
+            var msg = "Array contains: " + arr.length + "\n";
+            for (var it = 0; it < arr.length; it++) {
+                msg += arr[it].tagName + " - ";
+                msg += "Largura: " + $(arr[it]).css('width') + "; ";
+                msg += "Altura: " + $(arr[it]).css('height') + "; ";
+                msg += "\n";
+            }
+
+            alert(msg);
+        });
+    </script>
+</head>
+<body>
+    <div id="mainbar">
+
+        <div class="question" data-questionid="683339" id="question">
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="votecell">
+
+
+                            <div class="vote">
+                                <input type="hidden" name="_id_" value="683339">
+                                <a class="vote-up-off" title="This question shows research effort; it is useful and clear">up vote</a>
+                                <span class="vote-count-post " title="View upvote and downvote totals" style="cursor: pointer;">177</span>
+                                <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful">down vote</a>
+
+                                <a class="star-off" href="#" title="This is a favorite question (click again to undo)">favorite</a>
+                                <div class="favoritecount"><b>43</b></div>
+
+                            </div>
+
+                        </td>
+
+                        <td class="postcell">
+                            <div>
+                                <div class="post-text" itemprop="description">
+
+                                    <p>Is there a way of finding the absolute position of an element, i.e. relative to the start of the window, using jQuery?</p>
+
+                                </div>
+                                <table class="fw">
+                                    <tbody>
+                                        <tr>
+                                            <td class="vt">
+                                                <div class="post-menu"><a href="/q/683339/195417" title="short permalink to this question" class="short-link" id="link-post-683339">share</a><span class="lsep">|</span><a href="/posts/683339/edit" class="edit-post" title="revise and improve this post">edit</a><span class="lsep">|</span><a href="#" class="close-question-link" title="vote to close this question (when closed, no new answers can be added)" data-questionid="683339" data-isclosed="false">close</a><span class="lsep">|</span><a href="#" class="flag-post-link" title="flag this post for serious problems or moderator attention" data-postid="683339">flag</a></div>
+
+                                            </td>
+                                            <td align="right" class="post-signature">
+                                                <div class="user-info user-hover">
+                                                    <div class="user-action-time">
+                                                        <a href="/posts/683339/revisions" title="show all edits to this post">edited <span title="2009-03-26 01:30:01Z" class="relativetime">Mar 26 '09 at 1:30</span></a>
+                                                    </div>
+                                                    <div class="user-gravatar32">
+                                                        <a href="/users/45433/crescent-fresh">
+                                                            <div>
+                                                                <img src="https://www.gravatar.com/avatar/2753317bc8cdf481bc207d01b77c1d59?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32">
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="user-details">
+                                                        <a href="/users/45433/crescent-fresh">Crescent Fresh</a><br>
+                                                        <span class="reputation-score" title="reputation score 49161" dir="ltr">49.2k</span><span title="12 gold badges"><span class="badge1"></span><span class="badgecount">12</span></span><span title="98 silver badges"><span class="badge2"></span><span class="badgecount">98</span></span><span title="119 bronze badges"><span class="badge3"></span><span class="badgecount">119</span></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="post-signature owner">
+                                                <div class="user-info ">
+                                                    <div class="user-action-time">
+                                                        asked <span title="2009-03-25 20:36:52Z" class="relativetime">Mar 25 '09 at 20:36</span>
+                                                    </div>
+                                                    <div class="user-gravatar32">
+                                                        <a href="/users/29653/akshat">
+                                                            <div>
+                                                                <img src="https://www.gravatar.com/avatar/ea32e1d33d0ed1299628c2e49e9c3fc9?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32">
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="user-details">
+                                                        <a href="/users/29653/akshat">akshat</a><br>
+                                                        <span class="reputation-score" title="reputation score " dir="ltr">2,721</span><span title="5 gold badges"><span class="badge1"></span><span class="badgecount">5</span></span><span title="17 silver badges"><span class="badge2"></span><span class="badgecount">17</span></span><span title="25 bronze badges"><span class="badge3"></span><span class="badgecount">25</span></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="votecell"></td>
+                        <td>
+                            <div id="comments-683339" class="comments dno" data-localized="true">
+                                <table>
+                                    <tbody data-remaining-comments-count="0" data-addlink-html="add comment" data-addlink-disabled="false">
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td></td>
+                                            <td class="comment-form">
+                                                <form id="add-comment-683339" class="" data-placeholdertext="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments."></form>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <a id="comments-link-683339" class="comments-link " title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments." href="#">add comment</a>
+                        </td>
+                    </tr>
+                    <tr class="bounty-notification">
+                        <td class="votecell"></td>
+                        <td>
+                            <div style="margin-top: 20px">
+                                <a class="bounty-link bounty" title="offer some of your reputation for better answers">start a bounty
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="question-status">
+            <h2><b>protected</b> by <a href="/users/938089/rob-w">Rob W</a> <span title="2011-10-30 18:00:31Z" class="relativetime">Oct 30 '11 at 18:00</span>
+            </h2>
+            <p>
+                This question is protected to prevent "thanks!", "me too!", or spam answers by new users. 
+To answer it, you must have earned at least 10 <a href="/help/whats-reputation">reputation</a> on this site.
+            </p>
+        </div>
+
+        <div id="answers">
+
+            <a name="tab-top"></a>
+            <div id="answers-header">
+                <div class="subheader answers-subheader">
+                    <h2>4 Answers
+                    </h2>
+                    <div>
+                        <div id="tabs">
+                            <a href="/questions/683339/how-do-i-find-the-absolute-position-of-an-element-using-jquery?answertab=active#tab-top" title="Answers with the latest activity first">active</a>
+                            <a href="/questions/683339/how-do-i-find-the-absolute-position-of-an-element-using-jquery?answertab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
+                            <a class="youarehere" href="/questions/683339/how-do-i-find-the-absolute-position-of-an-element-using-jquery?answertab=votes#tab-top" title="Answers with the highest score first">votes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a name="683564"></a>
+            <div id="answer-683564" class="answer accepted-answer" data-answerid="683564">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="votecell">
+
+
+                                <div class="vote">
+                                    <input type="hidden" name="_id_" value="683564">
+                                    <a class="vote-up-off" title="This answer is useful">up vote</a>
+                                    <span class="vote-count-post " title="View upvote and downvote totals" style="cursor: pointer;">312</span>
+                                    <a class="vote-down-off" title="This answer is not useful">down vote</a>
+
+
+
+                                    <span class="vote-accepted-on load-accepted-answer-date" title="loading when this answer was accepted...">accepted</span>
+                                </div>
+
+                            </td>
+
+
+
+                            <td class="answercell">
+                                <div class="post-text">
+                                    <p><a href="http://docs.jquery.com/CSS/offset"><code>.offset()</code></a> will return the offset position of an element as a simple object, eg:</p>
+
+                                    <pre class="default prettyprint prettyprinted" style=""><code><span class="kwd">var</span><span class="pln"> position </span><span class="pun">=</span><span class="pln"> $</span><span class="pun">(</span><span class="pln">element</span><span class="pun">).</span><span class="pln">offset</span><span class="pun">();</span><span class="pln"> </span><span class="com">// position = { left: 42, top: 567 }</span></code></pre>
+
+                                    <p>You can use this return value to position other elements at the same spot:</p>
+
+                                    <pre class="default prettyprint prettyprinted" style=""><code><span class="pln">$</span><span class="pun">(</span><span class="pln">anotherElement</span><span class="pun">).</span><span class="pln">css</span><span class="pun">(</span><span class="pln">position</span><span class="pun">)</span></code></pre>
+
+                                </div>
+                                <table class="fw">
+                                    <tbody>
+                                        <tr>
+                                            <td class="vt">
+                                                <div class="post-menu"><a href="/a/683564/195417" title="short permalink to this answer" class="short-link" id="link-post-683564">share</a><span class="lsep">|</span><a href="/posts/683564/edit" class="edit-post" title="revise and improve this post">edit</a><span class="lsep">|</span><a href="#" class="flag-post-link" title="flag this post for serious problems or moderator attention" data-postid="683564">flag</a></div>
+                                            </td>
+
+
+
+                                            <td align="right" class="post-signature">
+
+
+                                                <div class="user-info user-hover">
+                                                    <div class="user-action-time">
+                                                        answered <span title="2009-03-25 21:33:03Z" class="relativetime">Mar 25 '09 at 21:33</span>
+                                                    </div>
+                                                    <div class="user-gravatar32">
+                                                        <a href="/users/45433/crescent-fresh">
+                                                            <div>
+                                                                <img src="https://www.gravatar.com/avatar/2753317bc8cdf481bc207d01b77c1d59?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32">
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="user-details">
+                                                        <a href="/users/45433/crescent-fresh">Crescent Fresh</a><br>
+                                                        <span class="reputation-score" title="reputation score 49161" dir="ltr">49.2k</span><span title="12 gold badges"><span class="badge1"></span><span class="badgecount">12</span></span><span title="98 silver badges"><span class="badge2"></span><span class="badgecount">98</span></span><span title="119 bronze badges"><span class="badge3"></span><span class="badgecount">119</span></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="votecell"></td>
+                            <td>
+                                <div id="comments-683564" class="comments" data-localized="true">
+                                    <table>
+                                        <tbody data-remaining-comments-count="3" data-addlink-html="add comment" data-addlink-disabled="false">
+                                            <tr id="comment-3422332" class="comment" data-commentid="3422332">
+                                                <td class="comment-actions">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="comment-score">
+                                                                    <span>&nbsp;</span>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="comment-up comment-up-off" title="this comment adds something useful to the post">upvote</a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td><a class="comment-flag" title="flag this comment as unconstructive, offensive, or spam">flag</a></td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="comment-text">
+                                                    <div style="display: block;" class="comment-body">
+                                                        <span class="comment-copy">very helpful thanks.  this works greate
+                                                        </span>
+                                                        –&nbsp;<a href="/users/76302/danny-g" title="1968 reputation" class="comment-user ">Danny G</a>
+                                                        <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment3422332_683564"><span title="2010-07-21 20:09:45Z" class="relativetime-clean">Jul 21 '10 at 20:09</span></a></span>
+
+
+
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr id="comment-7706319" class="comment" data-commentid="7706319">
+                                                <td class="comment-actions">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="comment-score">
+                                                                    <span title="number of 'useful comment' votes received" class="hot">19</span>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="comment-up comment-up-off" title="this comment adds something useful to the post">upvote</a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td><a class="comment-flag" title="flag this comment as unconstructive, offensive, or spam">flag</a></td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="comment-text">
+                                                    <div style="display: block;" class="comment-body">
+                                                        <span class="comment-copy">I always forget this one, and find your post again when I google :p
+                                                        </span>
+                                                        –&nbsp;<a href="/users/317975/aren" title="15099 reputation" class="comment-user ">Aren</a>
+                                                        <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment7706319_683564"><span title="2011-06-30 23:14:09Z" class="relativetime-clean">Jun 30 '11 at 23:14</span></a></span>
+
+
+
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr id="comment-7762853" class="comment" data-commentid="7762853">
+                                                <td class="comment-actions">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="comment-score">
+                                                                    <span title="number of 'useful comment' votes received" class="warm">13</span>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="comment-up comment-up-off" title="this comment adds something useful to the post">upvote</a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td><a class="comment-flag" title="flag this comment as unconstructive, offensive, or spam">flag</a></td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="comment-text">
+                                                    <div style="display: block;" class="comment-body">
+                                                        <span class="comment-copy">This does not always seem to return the absolute position due to differences in borders etc.
+                                                        </span>
+                                                        –&nbsp;<a href="/users/45974/tom" title="2660 reputation" class="comment-user ">Tom</a>
+                                                        <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment7762853_683564"><span title="2011-07-05 12:07:19Z" class="relativetime-clean">Jul 5 '11 at 12:07</span></a></span>
+
+
+
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr id="comment-13216136" class="comment" data-commentid="13216136">
+                                                <td class="comment-actions">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="comment-score">
+                                                                    <span title="number of 'useful comment' votes received" class="warm">5</span>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="comment-up comment-up-off" title="this comment adds something useful to the post">upvote</a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td><a class="comment-flag" title="flag this comment as unconstructive, offensive, or spam">flag</a></td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="comment-text">
+                                                    <div style="display: block;" class="comment-body">
+                                                        <span class="comment-copy">I'm using chrome and the <code>offset()</code> does not return the proper top coordinate.  It returns about 300 pixels more than the top coordinate of the element in the document instead.  Why??
+                                                        </span>
+                                                        –&nbsp;<a href="/users/304853/sologhost" title="847 reputation" class="comment-user ">SoLoGHoST</a>
+                                                        <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment13216136_683564"><span title="2012-04-23 05:49:33Z" class="relativetime-clean">Apr 23 '12 at 5:49</span></a></span>
+
+
+
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr id="comment-13516852" class="comment" data-commentid="13516852">
+                                                <td class="comment-actions">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="comment-score">
+                                                                    <span title="number of 'useful comment' votes received" class="cool">1</span>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="comment-up comment-up-off" title="this comment adds something useful to the post">upvote</a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td><a class="comment-flag" title="flag this comment as unconstructive, offensive, or spam">flag</a></td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="comment-text">
+                                                    <div style="display: block;" class="comment-body">
+                                                        –&nbsp;<a href="/users/397331/jakub-p" title="768 reputation" class="comment-user ">Jakub P.</a>
+                                                        <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment13516852_683564"><span title="2012-05-05 19:19:01Z" class="relativetime-clean">May 5 '12 at 19:19</span></a></span>
+                                                        <span class="edited-yes" title="this comment was edited 1 time"></span>
+
+
+
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr id="comment-15302398" class="comment" data-commentid="15302398">
+                                                <td class="comment-actions">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="comment-score">
+                                                                    <span>&nbsp;</span>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="comment-up comment-up-off" title="this comment adds something useful to the post">upvote</a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td><a class="comment-flag" title="flag this comment as unconstructive, offensive, or spam">flag</a></td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="comment-text">
+                                                    <div style="display: block;" class="comment-body">
+                                                        –&nbsp;<a href="/users/1087848/11684" title="3788 reputation" class="comment-user ">11684</a>
+                                                        <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment15302398_683564"><span title="2012-07-19 19:03:39Z" class="relativetime-clean">Jul 19 '12 at 19:03</span></a></span>
+
+
+
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr id="comment-22674799" class="comment" data-commentid="22674799">
+                                                <td class="comment-actions">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="comment-score">
+                                                                    <span>&nbsp;</span>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="comment-up comment-up-off" title="this comment adds something useful to the post">upvote</a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td><a class="comment-flag" title="flag this comment as unconstructive, offensive, or spam">flag</a></td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="comment-text">
+                                                    <div style="display: block;" class="comment-body">
+                                                        <span class="comment-copy">chrome, FF and IE are giving different results :(
+                                                        </span>
+                                                        –&nbsp;<a href="/users/1224003/rizwan-mumtaz" title="549 reputation" class="comment-user ">Rizwan Mumtaz</a>
+                                                        <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment22674799_683564"><span title="2013-04-10 07:02:09Z" class="relativetime-clean">Apr 10 '13 at 7:02</span></a></span>
+
+
+
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr id="comment-22794875" class="comment" data-commentid="22794875">
+                                                <td class="comment-actions">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="comment-score">
+                                                                    <span>&nbsp;</span>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="comment-up comment-up-off" title="this comment adds something useful to the post">upvote</a>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td><a class="comment-flag" title="flag this comment as unconstructive, offensive, or spam">flag</a></td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="comment-text">
+                                                    <div style="display: block;" class="comment-body">
+                                                        –&nbsp;<a href="/users/1331592/a-person" title="889 reputation" class="comment-user ">A Person</a>
+                                                        <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment22794875_683564"><span title="2013-04-13 13:38:05Z" class="relativetime-clean">Apr 13 '13 at 13:38</span></a></span>
+                                                        <span class="edited-yes" title="this comment was edited 1 time"></span>
+
+
+
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td></td>
+                                                <td class="comment-form">
+                                                    <form id="add-comment-683564" class="" data-placeholdertext="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <ul id="tabcomplete"></ul>
+                                                                        <textarea name="comment" cols="68" rows="3" placeholder="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."></textarea></td>
+                                                                    <td>
+                                                                        <input tabindex="0" type="submit" value="Add Comment"><br>
+                                                                        <a tabindex="0" class="comment-help-link">help</a></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="2"><span class="text-counter cool">enter at least 15 characters</span><span class="form-error"></span></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <a id="comments-link-683564" class="comments-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”." href="#" style="display: none;">add comment</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

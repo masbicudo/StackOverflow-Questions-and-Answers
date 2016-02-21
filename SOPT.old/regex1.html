@@ -1,0 +1,13 @@
+<html>
+    <head>  
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+    $(document).ready( function() {
+        document.write(/^(0*[0-9](\.[0-9]+)?|0*10\(.0+)?|F)$/i.test("F")+"<br/>");
+        document.write(/^(([F]{0,1})|((([1]{1}[0]{1})\.([0]{1}))|((([0]{1})(\d){1}))\.(\d{1})))?$/i.test("10.0")+"<br/>");
+    }); 
+</script>
+</head>
+<body>
+</body>
+</html>

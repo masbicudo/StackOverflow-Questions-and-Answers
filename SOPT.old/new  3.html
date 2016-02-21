@@ -1,0 +1,63 @@
+<!-- o { TotalDeItens, UltimaPagina, PaginaAtual, ItensNaPaginaAtual, ItensPorPagina, Lista [] { Id, Nome }, Headers { Id, Nome } } -->
+{%
+if (o.Lista.length) {
+    %}<table>{%
+        %}<thead>{%
+            %}<tr>{%
+            for (var key in o.Headers) {
+                %}<th>{%=o.Headers[key]%}</th>{%
+            }
+            %}</tr>{%
+        %}</thead>{%
+        %}<tbody>{%
+            for (var i = 0; i < o.ItensPorPagina; i++) {
+                if (i < o.ItensNaPaginaAtual) {
+                    %}<tr>{%
+                    for (var key in o.Headers) {
+                        %}<td>{%=o.Lista[i][key]%}</td>{%
+                    }
+                    %}</tr>{%
+                } else {
+                    %}<tr>{%
+                    for (var key in o.Headers) {
+                        %}<td>&nbsp;</td>{%
+                    }
+                    %}</tr>{%
+                }
+            }
+        %}</tbody>{%
+    %}</table>{%
+    %}<div class="pager">{%
+        var maxPage = o.PaginaAtual + 3,
+            minPage = o.PaginaAtual - 3;
+
+        if (minPage > 1) {
+            %}<button data-page="1" class="pager-item"><<</button>{%
+        }
+
+        if (o.PaginaAtual > 1) {
+            %}<button data-page="{%=o.PaginaAtual-1%}" class="pager-item"><</button>{%
+        }
+
+        for (var i = minPage; i <= maxPage; i++) {
+            if (i >= 1 && i <= o.UltimaPagina) {
+                if (i == o.PaginaAtual) {
+                    %}<button data-page="{%=i%}" class="pager-item pager-current">{%=i%}</button>{%
+                } else {
+                    %}<button data-page="{%=i%}" class="pager-item">{%=i%}</button>{%
+                }
+            }
+        }
+
+        if (o.PaginaAtual < o.UltimaPagina) {
+            %}<button data-page="{%=o.PaginaAtual+1%}" class="pager-item">></button>{%
+        }
+
+        if (maxPage < o.UltimaPagina) {
+            %}<button data-page="{%=o.UltimaPagina%}" class="pager-item">>></button>{%
+        }
+    %}</div>{%
+} else {
+    %}<div>Nenhum resultado</div>{%
+}
+%}

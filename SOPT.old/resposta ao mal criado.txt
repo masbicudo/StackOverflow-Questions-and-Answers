@@ -1,0 +1,107 @@
+Resposta ao mal-criado: http://pt.stackoverflow.com/a/12223/1925
+
+Você deve definir a propriedade como nullable, e colocar o data-annotation
+`Required` sobre o campo.
+
+Como já há outra resposta dizendo isso, vou explicar da forma mais detalhada que eu conseguir.
+
+Nullable? Isso não faz sentido...
+---------------------------------
+
+Isso faz sentido sim... uma view-model
+é um modelo que serve para intercambio de dados entre o controller e a view.
+Se a view pode aparecer com o valor da propriedade vazio ao invocar a operação
+CRUD de criação, então faz sentido que esta propriedade seja nullable,
+pois este é o estado inicial, apesar de ser inválido...
+fato este que é tratado pelo annotation `Required` sem problemas.
+
+Se você não fizer a propriedade ser nullable, então não poderá passar um
+view-model para a view de criação... a meu ver parece aceitável, mas eu gosto
+de ter controle, então eu sempre chamo a view de criação assim:
+
+    return this.View(new MeuViewModel());
+
+Assim quando eu precisar passar algum valor default, para a view de criação,
+eu posso fazer isso.
+
+Annotation Required
+-------------------
+
+`Required` serve para dizer: **se o valor associado à propriedade for nulo ou
+vazio, então o modelo é inválido**. Não importa se o valor da propriedade é
+anulável ou não. Acontece que a validação pode ser feita no client, ou no
+server. O MVC 5 pode usar o atributo `required` para fazer validação client-side
+o que não é uma regra. O MVC 3 também possui validação client. Em todos os
+casos anteriores, seja a propriedade nullable ou não, nenhuma entra em conflito
+conceitual com o atributo `Required`.
+
+Use Html.EditorFor
+------------------
+
+Na view use `EditorFor`. Existem vários motivos para isso:
+
+ - este método irá gerar campos HTML com os prefixos de template corretamente,
+ o que é necessário quando trabalhando com mestre-detalhe e com EditorTemplates.
+ 
+ - este método vai obedecer aos formatos indicados via annotation:
+ `DisplayFormat`, `DataType`, entre outros.
+ 
+ - este método irá renderizar os controles mais aproprieados para lidar com o
+ tipo de dados. Se você não gostar da forma que foi renderizado, pode facilmente
+ criar um EditorTemplate para contornar o problema, usando o annotation
+ `UIHint("NomeDoEditorPersonalizado")`.
+
+Não use Html.TextBoxFor
+-----------------------
+
+Posso confirmar que, tanto no ASP.NET MVC 3, como no 4, como no 5,
+`TextBoxFor` lê e renderiza o valor da propriedade que for passada para ele,
+a não ser que o view-model passado seja nulo.
+
+Se a propriedade for um `DateTime`, que é um value-type cujo valor
+padrão é `01/01/0001 00:00:00` então é isso que será renderizado. Se for um
+`int`, o valor padrão é `0`, e nesse caso é isso que será renderizado.
+
+Só não vai ser renderizado o valor padrão do tipo, caso um valor seja definido
+manualmente.
+
+Além disso, esse método ignora todas as tentativas de formatá-lo usando
+annotations: `DisplayFormat`, `DataType`, `UIHint`...
+
+**Quando usar TextBoxFor**
+
+Eu não vejo nenhum motivo para usar este método. Nunca!
+
+Se você for usar um plugin de date-picker, que requer uma `<input type="text" />`,
+então use um EditorTemplate, que além de tudo, encapsule o uso do plugin.
+
+Não use Html.TextBox
+--------------------
+
+Não use o método `TextBox` para criar um campo do modelo.
+Este método não leva em conta o uso de prefixo de template,
+que é necessário em visualizações do tipo mestre-detalhe,
+e no uso de templates de edição `EditorTemplates` quando aplicável
+([`ViewData.TemplateInfo.HtmlFieldPrefix`](http://msdn.microsoft.com/en-us/library/system.web.mvc.templateinfo.htmlfieldprefix(v=vs.118).aspx)).
+
+Referência
+----------
+
+- [What is use of UIHint attribute in MVC][1]
+
+- [TemplateInfo.HtmlFieldPrefix Property][2]
+
+- [How to remove time part from DateTime variable in MVC][3]
+
+- [Exploring Display and Editor Templates in ASP.NET MVC3/4][4]
+
+- [ASP.NET MVC 4 Editor Template for basic types][5]
+
+
+  [1]: http://stackoverflow.com/questions/8196372/what-is-use-of-uihint-attribute-in-mvc
+  [2]: http://msdn.microsoft.com/en-us/library/system.web.mvc.templateinfo.htmlfieldprefix%28v=vs.118%29.aspx
+  [3]: http://stackoverflow.com/questions/17550569/how-to-remove-time-part-from-datetime-variable-in-mvc
+  [4]: http://www.codeproject.com/Articles/672591/Exploring-Display-and-Editor-Templates-in-ASP-NET
+  [5]: http://stackoverflow.com/questions/14655930/asp-net-mvc-4-editor-template-for-basic-types
+Eu trabalho com MVC desde quando saiu a versão 3 em 2011, então me desculpe,
+mas esse fato não tem nada a ver com o problema.

@@ -1,0 +1,31 @@
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <style type="text/css">
+        #div {
+            color: white;
+            background-color: brown;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            var div = $("#div");
+            $("body").on("click", function (e) {
+                if (div.has(e.target).length || e.target == div[0])
+                    return;
+
+                alert("Você clicou fora da div!");
+            });
+        })
+    </script>
+
+</head>
+<body>
+    <div id="div">
+        div
+        <span>child</span>
+    </div>
+</body>
+</html>

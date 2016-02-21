@@ -1,0 +1,53 @@
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var $inputs = $("input, textarea, select", "#formName");
+
+            var limpos = 0;
+
+            // verificação inicial
+            $inputs.each(function () {
+                var $this = $(this);
+                var val = $this.val();
+                val || limpos++;
+                $this.data("val-antigo", val);
+            });
+
+            $("#botao").prop("disabled", !!limpos);
+
+            $inputs.on("change keyup mouseup", function () {
+                var $this = $(this);
+                var val = $this.val();
+                limpos += (val ? 0 : 1) - ($this.data("val-antigo") ? 0 : 1);
+                $this.data("val-antigo", val);
+                $("#botao").prop("disabled", !!limpos);
+            });
+        });
+    </script>
+    <style type="text/css">
+        input, textarea, select {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <form action="#" method="POST" id="formName">
+        <input type="text" id="texto1" />
+        <input type="text" id="texto2" value="valor-prévio" />
+        <textarea id="Textarea1"></textarea>
+        <textarea id="Textarea2">valor-prévio</textarea>
+        <input type="checkbox" name="chk" value="check-is-true" />
+        <select>
+            <option value="">-- selecione um valor --</option>
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+        </select>
+        <button id="botao">botão</button>
+    </form>
+</body>
+</html>

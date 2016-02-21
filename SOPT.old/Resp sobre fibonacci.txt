@@ -1,0 +1,7 @@
+http://jsfiddle.net/VDr3Q/3/
+http://jsfiddle.net/y69yu/1/
+
+
+function f(n){return n<2?n:f(n-1)+f(n-2)}
+function fib(n){var a=1,b=1;while(--n)a=b+(b=a);return b;}
+function f(n,a,b){return n<1?b:f(n-1,b,a+b)}

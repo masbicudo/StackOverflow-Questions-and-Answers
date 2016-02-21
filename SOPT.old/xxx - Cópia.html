@@ -1,0 +1,42 @@
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+$(function () {
+    $("#mytable > tbody > tr").on("click", function (e) {
+        var $this = $(this);
+        this.$siblings = this.$siblings || $this.siblings();
+        this.$siblings.removeClass("ativo");
+        $this.toggleClass("ativo");
+    });
+});
+
+</script>
+
+<style type="text/css">
+.ativo {
+    background-color: #00F;
+    color: white;
+}
+
+table { border-collapse: collapse; }
+tr { border: 1px solid black; cursor: pointer;
+    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -o-user-select: none; user-select: none;
+ }
+td { padding: 5px; }
+</style>
+</head>
+<body>
+<input type="text" id="texto" />
+
+<table id="mytable">
+    <tr><td>Item 1</td><td>R$ 300</td></tr>
+    <tr><td>Item 2</td><td>R$ 500</td></tr>
+</table>
+
+<div id="output"></div>
+<div id="events"></div>
+</body>
+</html>

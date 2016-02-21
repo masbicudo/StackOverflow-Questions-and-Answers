@@ -1,0 +1,18 @@
+Você pode utilizar o [visualizador do Google Docs][1], que permite fazer referência a documentos on-line (e.g. PDF, DOC, entre outros), e então usar uma das opções dadas pelo viewer:
+
+ - URL: url da página de visualização
+
+ - Link `<a href='...'>` permite ligar a uma página de visualização
+
+ - Iframe `<iframe src='...'></iframe>` permite adicionar o pdf embedded em qualquer página
+
+Para colocar o documento dentro do seu site, você pode usar a opção do iframe, e adicionar o mesmo em qualquer página.
+
+Exemplo de iframe gerado pelo viewer:
+
+    <iframe src="http://docs.google.com/viewer?url=http%3A%2F%2Fdownload.inep.gov.br%2Feducacao_superior%2Fenade%2Fmanuais%2Fmanual_enade_2013.pdf&embedded=true" width="600" height="780" style="border: none;"></iframe>
+
+Obviamente, você pode gerar essa tag em seu código, se isso for necessário.
+
+
+  [1]: https://docs.google.com/viewer

@@ -1,0 +1,27 @@
+Uma linguagem tem **funções de primeira classe**, quando funções podem ser
+tratadas como valores que podem ser passados, manipulados, retornados...
+ou seja, é possível operar funções. Este conceito é um atributo da linguagem,
+ou ela tem ou não tem.
+
+**Função de alta ordem** é uma função que recebe ou retorna uma função.
+<s>Só é possível definir uma função de alta ordem, se a linguagem tem
+**funções de primeira classe**</s>, pois é necessário que funções sejam *"passáveis"*.
+Este conceito é um atributo da função, ou ela é ou não é.
+
+**EDIT**
+
+Linguagens que não possuem funções de primeira classe, como o C, ainda assim
+permitem a criação de funções de alta ordem, usando ponteiros de função.
+
+Javascript é uma linguagem que possui funções de primeira classe, ou seja,
+é possível passar, retornar e operar funções.
+
+**Referência:**
+
+ - [Higher-order function][1]<sup>(inglês)</sup>
+
+ - [First-class function][2]<sup>(inglês)</sup>
+
+
+  [1]: http://en.wikipedia.org/wiki/Higher-order_function
+  [2]: http://en.wikipedia.org/wiki/First-class_function

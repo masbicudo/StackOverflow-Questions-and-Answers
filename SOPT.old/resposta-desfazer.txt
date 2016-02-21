@@ -1,0 +1,92 @@
+O que é a operação desfazer?
+--------------------------
+
+O conceito de desfazer, possui sua melhor descrição nos sistemas de
+versionamento de arquivos. Das variantes de comportamento entre os diferentes
+sistemas de versionamento, vou destacar alguns parâmetros que considero
+importantes, na construção de algo parecido.
+
+Esses sistemas armazenam todas as alterações feitas nos arquivos (registros)
+para sempre, **na integra, ou na forma de diff em relação à versão anterior**.
+Isso quer dizer que é possível reconstruir qualquer um dos arquivos em
+qualquer ponto do tempo, desde que exista um registro de cada alteração feita.
+
+Cada registro, possui uma **indicação exata de qual é a versão anterior**
+dele, sendo que um registro pode ter no máximo uma base. Isso pode ser feito
+na forma de um apontamento, ou seja, uma referência ao registro anterior.
+Assim sendo, dois registros podem ter como base o mesmo registro anterior.
+
+Note que isso permite construir uma árvore de alterações.
+Desfazer (ou até mesmo refazer), significa meramente alterar o HEAD de lugar,
+seja isso feito na forma de uma **flag, ou de um apontamento**.
+O HEAD é uma indicação de qual dentre todos os registros existentes na árvore,
+é a versão corrente.
+
+Finalmente, temos de considerar a unidade de trabalho para a ação de desfazer.
+Nos sistemas de versionamento, é possível **desfazer alterações menores do que a
+unidade de trabalho**, que seria um commit. Entretanto, isso não é algo de
+extrema necessidade e você poderia simplesmente **usar unidades de trabalho
+menores**, e permitir desfazer apenas na integra, mas não parcialmente.
+
+Decidindo quais recursos devo implementar
+-----------------------------------------
+
+**Armazenar na integra, ou apenas os diffs**
+
+ - **Armazenar na integra:** armazenar tudo na integra torna tudo mais símples.
+ Não é necessário fazer diff dos registros, o que é uma tarefa complexa.
+ Para recuperar um registro em qualquer ponto,
+ não é necessário reconstruir desde o início, ou de um snapshot anterior.
+ 
+ - **Armazenar diffs:** armazenar diffs pode ter vantagens, pois diffs são mais
+ compactos, e portanto requerem menos espaço de armazenamento.
+ 
+**Como saber qual é a versão anterior**
+
+ - **Apontamento para o anterior:** eu recomendo um apontamento para o registro
+anterior. Eu acho que é dessa forma que a maioria dos programadores esperaria
+que fosse feito, e portanto é a que possui menor barreira de entrada para
+outros programadores.
+
+**Implementando um indicador de HEAD**
+
+ - **Braches:** Existem sistemas de versionamento de arquivos que possuem
+ vários braches de desenvolvimento, ou seja, várias visões do que é a versão
+ corrente. Isso requer que exista algo no
+ sistema que represente um brach, e é esse objeto que irá dizer qual o seu HEAD.
+ 
+ - **Sem branches:** Essa é a mais símples. Não existem várias visões do
+ conteúdo. Apenas um branch com apenas um HEAD. Ainda assim poderia existir
+ um registro específico para o branch no banco de dados, que aponte para o HEAD,
+ isso torna o sistema flexível e o permite se desenvolver para outros caminho,
+ ou então usar uma flag em um campo de um dos elementos da árvore... o que além
+ de inflexível, eu acho que seria mais complicado, principalmente para garantir
+ que só existe um registro da árvore que possui a flag ligada.
+
+**Sobre a unidade de trabalho**
+
+A unidade de trabalho é cada nó da árvore. Existem duas formas de desfazer,
+uma que permite desfazer alterações menores que a unidade de trabalho, e outra
+que permite desfazer apenas unidades de trabalho inteiras.
+
+ - **Desfazer unidades inteiras:** essa é a forma mais fácil de implementar.
+ Requer apenas que o apontamento do HEAD seja alterado. Para permitir ações de
+ desfazer mais granulares, é possível utilizar unidades de trabalho menores.
+ Por exemplo, se o sistema é composto de POSTS atualizados por vários usuários,
+ como o StackOverflow, a unidade de trabalho pode ser uma postagem inteira, o que é o
+ caso, ou então se fosse necessário desfazer apenas tags independentes do
+ conteúdo, poderiam haver duas árvores de alterações: uma para conteúdo e outra
+ para tags, ou seja, dois sistemas de desfazer mais granulares.
+ 
+ - **Desfazer unidades parcialmente:** essa forma de desfazer, não pode ser
+ chamada bem assim, pois ela requer um MERGE e portanto um novo registro de
+ alteração. Recorrendo ao exemplo anterior, em que se deseja desfazer conteúdo
+ e tags de uma postagem de forma independente, se a unidade de trabalho fosse
+ a postagem, então para desfazer apenas tags até um ponto passado `P0`,
+ teria de se criar um novo objeto de postagem `P2`,
+ copiando as tags do ponto desejado `P0`, e indicando que a
+ nova postagem `P2` é um MERGE entre o anterior `P1` e o ponto `P0`:
+
+        Resumindo: P2 => P0 + P1 (MERGE)
+
+ Dito isso, dá para ver que um sistema desses é bem mais difícil de se implementar.

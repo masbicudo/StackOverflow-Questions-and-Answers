@@ -1,0 +1,120 @@
+O que significa o seletor CSS :first-child e :last-child?
+
+
+
+
+Tenho um código usando jQuery que se baseava nos seletores CSS `:first-child` e
+`:last-child` (e que funcionou por um bom tempo), para obter o primeiro `input`
+e o último `input` dentro de um grupo contendo *input + select + input*...
+O primeiro `input` era o valor inicial de um intervalo,
+e o último era o valor final do dito intervalo,
+sendo que no meio está o `select` com operadores de exclusão/inclusão
+das extremidades.
+
+Estava assim:
+
+    var $inputIni = $("input:first-child", controlDiv),
+        $inputFim = $("input:last-child", controlDiv),
+        $select = $("select", controlDiv);
+        
+jsfiddle -> http://jsfiddle.net/6Kpgf/1/
+
+Cheguei à conclusão de que os inputs não tinham o propósito claro para
+o usuário final, e resolvi colocar labels para os mesmos, assim como para o
+select do meio. A partir daí o seletor `:first-child` não funcionou mais.
+Não consigo mais chegar até os elemento usando o seletor... porque isso?
+
+jsfiddle -> http://jsfiddle.net/6Kpgf/2/
+
+Imagino que o mesmo problema, seja qual for, possa também um dia acontecer com
+o seletor `:last-child`, então como entender o problema?
+
+
+
+
+Pseudo-classes não funcionam assim
+----------------------------------
+
+É comum fazer esta confusão sobre o significado dos seletores `:first-child`
+e `:last-child`, também chamados de pseudo-classes, além de outras pseudo-classes
+que denotam posição.
+
+As pseudo-classes, quando usadas em um seletor, não levam em conta o restante
+do seletor em questão, portanto o seletor `input:first-child` **não se refere ao
+primeiro input**, mas sim ao **input que seja o primeiro filho de seu pai**.
+
+Isso quer dizer que a pseudo-classe `:first-child` irá marcar qualquer que seja
+o **primeiro elemento que seja filho de um outro qualquer**. O mesmo
+ocorre com a pseudo-classe `:last-child` que irá marcar somente o último filho.
+
+Analogamente, `input:last-child` significa: **o input que é o último filho**.
+Outras pseudo-classes de posição também funcionam de forma análoga.
+Vejamos uma lista com os respectivos significados:
+
+ - `input:first-child`: input que seja coincidentemente o primeiro filho do pai
+
+ - `input:last-child`: input que seja coincidentemente o último filho do pai
+
+ - `input:nth-child(2)`: input que seja coincidentemente o segundo filho do pai
+
+ - `input:nth-last-child(2)`: input que seja coincidentemente o penúltimo filho do pai
+ 
+ - `input:first-of-type`: input que seja coincidentemente o primeiro do tipo no pai
+
+ - `input:last-of-type`: input que seja coincidentemente o último do tipo no pai
+
+ - `input:nth-of-type(2)`: input que seja coincidentemente o segundo do tipo no pai
+ 
+ - `input:nth-last-of-type(2)`: input que seja coincidentemente o penúltimo do tipo no pai
+
+Soluções para o problema
+------------------------
+
+Existem algumas soluções para o problema apresentado:
+
+ - Usar IDs para os inputs especificos ao invés do que está sendo feito, talvez
+   concatenando com o ID da div que agrupa os elementos, como indicado no
+   jsfiddle, assim: `<input name="ctl_ini" id="ctl_ini" />` e o seletor assim:
+   `$("#ctl_ini")`
+
+ - Usar as pseudo-classes `:first-of-type` e `:last-of-type` assim:
+   `$("#ctl input:first-of-type")` e `$("#ctl input:last-of-type")`
+   
+   jsfiddle -> http://jsfiddle.net/Cr7C8/
+
+   Informações sobre a pseudo-classe :first-of-type -> https://developer.mozilla.org/en-US/docs/Web/CSS/:first-of-type
+   
+   Note que para uso em CSS, o suporte é um pouco limitado. Mas no jQuery pode
+   usar sem preocupação.
+
+Uma nova confusão com o `:first-of-type`
+----------------------------------------
+
+As pseudo-classes `:first-of-type` e outras que se baseiam no tipo do
+elemento, voltam a causar uma certa confusão, pois
+aparentemente no seletor `input:first-of-type` a pseudo-classe está
+se baseando no restante do seletor para obter o resultado, o que não é verdade.
+
+Exemplo:
+
+ - `a.cls:first-of-type`: elemento do tipo `a`, com a classe CSS `cls` que é coincidentemente o primeiro do tipo.
+
+    Como estamos selecionando o tipo do elemento: `a`, então os únicos "primeiros do tipo" serão coincidentemente do tipo `a`,
+    mas isso não quer dizer que a pseudo-classe `:first-of-type` se baseou no que veio antes no seletor. Tanto é verdade
+    que ela ignora a classe do seletor: `cls` em sua decisão, ou seja, esse seletor **não significa** *o primeiro `a` com a classe `cls`*.
+
+Conclusão
+---------
+
+A conclusão, é uma medida de segurança para o desenvolvedor:
+
+pseudo-classes devem ser tratadas **sempre** como meras coincidência...
+para saber o que a pseudo-classe realmente significa,
+basta usá-la sem mais nada no mesmo seletor
+e então fazer um AND assim:
+
+ - `a:first-child` vai selecionar os elementos forem selecionados tanto pelo
+  seletor `a` como pelo seletor `:first-child`
+
+Então basta testar ambos os seletores separadamente,
+e depois mesclar os resultados.

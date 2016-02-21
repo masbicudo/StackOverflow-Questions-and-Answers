@@ -1,0 +1,27 @@
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        var valMes = $('p.nomMes').text().trim();
+
+        $(document).on('click', 'p.nomMes', function(){
+            $("#meses option:contains('"+valMes+"')").prop('selected', true);
+        });
+    </script>
+    <style type="text/css">
+        input, textarea, select {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <p class="nomMes">Abril</p>
+    <select id="meses">
+        <option value="0">Janeiro</option>
+        <option value="1">Fevereiro</option>
+        <option value="2">Março</option>
+        <option value="3">Abril</option>
+    </select>
+</body>
+</html>

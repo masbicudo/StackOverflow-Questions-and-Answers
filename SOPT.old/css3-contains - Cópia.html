@@ -1,0 +1,43 @@
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    $(function () {
+        $("input[value=''], select[value=''], textarea[value='']").val("xpto");
+    });
+    </script>
+    
+    <style type="text/css">
+        a {
+            color: black;
+        }
+        
+        a:contains("1") {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" name="xpto1" />
+    <input type="text" name="xpto2" value="" />
+    <input type="text" name="xpto2" value="x" />
+    <textarea name="txt1"></textarea>
+    <textarea name="txt2">x</textarea>
+    <select>
+        <option selected="selected">None</option>
+        <option value="" >Empty</option>
+        <option value="x" >x</option>
+    </select>
+    <select>
+        <option >None</option>
+        <option value="" selected="selected">Empty</option>
+        <option value="x" >x</option>
+    </select>
+    <select>
+        <option >None</option>
+        <option value="" >Empty</option>
+        <option value="x" selected="selected">x</option>
+    </select>
+</body>
+</html>

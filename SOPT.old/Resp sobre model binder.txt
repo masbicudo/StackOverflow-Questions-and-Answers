@@ -1,0 +1,27 @@
+    public class Cep
+    {
+        public Cep(string value)
+        {
+            this.Value = value;
+        }
+        
+        public string Value { get; private set; }
+    }
+
+    public class CepModelBinder : IModelBinder
+    {
+        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            string key = bindingContext.ModelName;
+            ValueProviderResult val = bindingContext.ValueProvider.GetValue(key);
+            if (val != null)
+            {
+                string s = val.AttemptedValue as string;
+                if (s != null)
+                {
+                    return new Cep(s);
+                }
+            }
+            return null;
+        }
+    }

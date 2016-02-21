@@ -1,0 +1,123 @@
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+//alert("http://www.xpto.com/abc?123#hash".replace(/.*(?=#[^\s]*$)/, ""));
+
+$(function () {
+    var range;
+
+    $("#texto").on("focus", function (e) {
+        $("#mytable>*").attr("tabindex", -1);
+    });
+    
+    $("#texto").on("keyup mouseup", function (e) {
+        range = document.selection && document.selection.createRange();
+    });
+    
+    $("#texto").on("blur", function (e) {
+        var focoMovendoPara =
+               e.originalEvent.explicitOriginalTarget
+            || e.originalEvent.relatedTarget
+            || e.originalEvent.toElement
+            ||     e.originalEvent.x
+                && e.originalEvent.y
+                && document.elementFromPoint(
+                            e.originalEvent.x,
+                            e.originalEvent.y)
+            || document.activeElement;
+        
+        if (focoMovendoPara.noteType == 3)
+            focoMovendoPara = focoMovendoPara.parentNode;
+
+        if ($("#mytable").find(focoMovendoPara).length) {
+            var $this = $(this);
+            setTimeout(function() {
+                $this.focus();
+                range && range.select();
+            }, 0);
+            $this.focus();
+            range && range.select();
+            e.preventDefault();
+            return false;
+        }
+        else {
+            $("#mytable>*").removeAttr("tabindex");
+        }
+    });
+    
+    $("#mytable > tbody > tr").on("click", function (e) {
+        $(this).siblings().removeClass("ativo");
+        $(this).addClass("ativo");
+    });
+});
+
+// DAQUI PARA BAIXO É SÓ DEBUG
+
+debugEventos = function (e, range) {
+    $("#events").append(
+        e.type + "; " +
+        (range && range.text || "Não é o IE: seleção mantida sem intervenção") + "<br/>");
+};
+
+debugVars = function(e) {
+        $("#output").html(
+            "explicitOriginalTarget = " +
+                e.originalEvent.explicitOriginalTarget +
+                "<br/>" +
+            "relatedTarget = " +
+                e.originalEvent.relatedTarget +
+                "<br/>" +
+            "toElement = " +
+                e.originalEvent.toElement +
+                "<br/>" +
+            "elementFromPoint = " +
+                (e.originalEvent.x && e.originalEvent.y
+                    && document.elementFromPoint(
+                        e.originalEvent.x,
+                        e.originalEvent.y)) +
+                "<br/>" +
+            "activeElement = " +
+                document.activeElement);
+};
+</script>
+
+<style type="text/css">
+#output, #events {
+    font-size: 0.8em;
+    color: #555;
+    margin: 10px;
+}
+
+.ativo {
+    background-color: #00F;
+    color: white;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+tr {
+    border: 1px solid black;
+}
+
+td {
+    padding: 5px;
+}
+</style>
+</head>
+<body>
+<input type="text" id="texto" />
+
+<table id="mytable">
+    <tr><td>Item 1</td><td>R$ 300</td></tr>
+    <tr><td>Item 2</td><td>R$ 500</td></tr>
+</table>
+
+<div id="output"></div>
+<div id="events"></div>
+</body>
+</html>

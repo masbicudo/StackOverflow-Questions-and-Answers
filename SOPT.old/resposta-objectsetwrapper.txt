@@ -1,0 +1,45 @@
+Possivelmente você terá de implementar a interface `IObjectSet<TEntity>` para que o entity-framework possa saber como trabalhar com esse objeto, caso contrário, o entity vai interpretar esse objeto como sendo qualquer coisa, que não tem nada que ver com ele.
+
+**EDIT**
+
+Vou apontar o caminho que com certeza vai funcionar:
+
+O método `Expression IQueryable.Expression` retorna a expressão que será transformada em SQL pelo Entity. De posse desse objeto, que será obtido do `ObjectSet` original, você deve reconstruí-lo de forma que as referências ao `ObjectSetWrapper` sejam substituidas por referências do `ObjectSet` interno, além de adicionar uma chamada ao método `Where` para filtrar de acordo com o controle de acesso.
+
+Reconstruir a `Expression` é algo que vai dar bastante trabalho, pois é uma AST (árvore sintática abstrata) imutável, ou seja, você vai ter que reconstruir toda a árvore. Para fazer isso, você pode implementar um [`ExpressionVisitor`][1] que irá converter a expressão original:
+
+    public class ControleAcessoVisitor : ExpressionVisitor
+    {
+        protected override Expression VisitConstant(ConstantExpression node)
+        {
+            Expression result = node;
+
+            if (node.Value is ObjectSetWrapper)
+            {
+                result = Expression.Constant((node.Value as ObjectSetWrapper).inner);
+
+                var whereMethod = typeof(Queryable).GetMethods().Single(m =>
+                    m.Name == "Where"
+                    && m.GetParameters().Length == 2
+                    && m.GetParameters()[1].ParameterType
+                        .GetGenericArguments()[1]
+                        .GetGenericArguments().Length == 2);
+
+                Expression filtroControleAcesso = PegarExpressionFiltroCA();
+
+                result = Expression.Call(whereMethod, result, filtroControleAcesso);
+            }
+
+            return base.Visit(result);
+        }
+    }
+
+E no método `Expression IQueryable.Expression` do seu wraper:
+
+        Expression IQueryable.Expression
+        {
+            get { return new ControleAcessoVisitor().Visit(this.query.Expression); }
+        }
+
+
+  [1]: http://msdn.microsoft.com/en-us/library/system.linq.expressions.expressionvisitor.aspx

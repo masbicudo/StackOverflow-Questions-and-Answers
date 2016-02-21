@@ -1,0 +1,113 @@
+Acho que o Entity Framework não vai se importar com as colunas adicionais, desde que elas não
+atrapalhem o salvamento das entidades sem os valores adicionais.
+
+Adicionando colunas sem atrapalhar o Entity
+-------------------------------------------
+
+Para isso basta setar um valor default para os campos adicionais, criando-as com SQL puro mesmo.
+
+Você teria que armazenar quais colunas adicionais existem. Pode até ser no banco de dados mesmo,
+digamos em uma tabela chamada `ExtraColumns`, a qual poderia ser lida pelo Entity Framework e
+mapeada normalmente para uma classe `ExtraColumn`.
+
+<!-- language: c# -->
+
+    using (var context = new MyContext())
+    {
+        // pegando o ObjectContext
+        var objectContext = context is DbContext
+             ? ((IObjectContextAdapter)context).ObjectContext
+             : context as ObjectContext;
+
+        var isNullable = false;
+        var nomeTabela = "Produtos";
+        var nomeColuna = "NovaColuna"; // NOTA: se essa string vier do usuário então será
+                                       // necessário validar o texto para evitar SQL Injection
+        // Exemplo: permitir apenas letras
+        if (nomeColuna.Any(ch => !char.IsLetter(ch)))
+            throw new Exception("Senhor usuário, o nome da coluna permite apenas letras.");
+
+        var tipoColuna = "nvarchar(max)";
+        
+        objectContext.ExecuteStoreCommand(string.Format(@"
+            ALTER TABLE {0} 
+            ADD [{1}] {2} {3} 
+            CONSTRAINT DEFAULT_{0}_{1} DEFAULT {4}
+        ", nomeTabela, nomeColuna, tipoColuna, isNullable ? "NULL" : "NOT NULL", valorDefault));
+
+        var extraColumn = new ExtraColumn
+        {
+            NomeTabela = nomeTabela,
+            NomeColuna = nomeColuna,
+            TipoColuna = tipoColuna,
+        }
+        context.ExtraColumns.Add(extraColumn);
+        context.SaveChanges();
+    }
+
+Recuperando valores das colunas extra
+-------------------------------------
+
+Para recuperar valores nesses campos adicionais, você pode usar a própria conexão usada pelo
+`DbContext` ou `ObjectContext`, mas sem passar pelo ORM em si, usando a própria conexão com
+o banco de dados e criando um `DbCommand` e depois um `DbDataReader`:
+
+    using (var context = new MyContext())
+    {
+        // pegando o ObjectContext
+        var objectContext = context is DbContext
+             ? ((IObjectContextAdapter)context).ObjectContext
+             : context as ObjectContext;
+
+        var nomeTabela = "Produtos";
+             
+        var extraColumns = context.ExtraColumns
+            .Where(c => c.NomeTabela == nomeTabela)
+            .ToList();
+        
+        var query = "SELECT "
+            + string.Join(",", extraColumns.Select(c => c.NomeColuna))
+            + " FROM " + nomeTabela;
+
+        // pegando a conexão com o DB a partir do ObjectContext
+        var conn = ((EntityConnection)objectContext.Connection).StoreConnection;
+
+        using (var command = conn.CreateCommand())
+        {
+            command.CommandText = query;
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                // reader[0] agora contém a primeira coluna extra
+                // reader[1] agora contém a segunda coluna extra
+                // ...
+            }
+        }
+    }
+
+Salvando valores das colunas extra
+----------------------------------
+
+Para salvar valores nesses campos adicionais, você pode usar o método `ExecuteStoreCommand`,
+como fizemos antes para criar as novas colunas:
+
+    using (var context = new MyContext())
+    {
+        // pegando o ObjectContext
+        var objectContext = context is DbContext
+             ? ((IObjectContextAdapter)context).ObjectContext
+             : context as ObjectContext;
+
+        var nomeTabela = "Produtos";
+        var values = __lista_de_valores_a_atualizar__;
+         
+        var extraColumns = context.ExtraColumns
+            .Where(c => c.NomeTabela == nomeTabela)
+            .ToList();
+        
+        var queryFmt = "UPDATE "
+            + string.Join(",", extraColumns.Select((c, i) => string.Format("{0} = {{{1}}}", c.NomeColuna, i))
+            + " FROM " + nomeTabela;
+
+        objectContext.ExecuteStoreCommand(queryFmt, values.ToArray());
+    }

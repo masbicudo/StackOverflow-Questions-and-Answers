@@ -1,0 +1,8 @@
+O que resulta de operações com nullables no C#?
+
+O que esperar de comparações entre variáveis nullable no C#?
+
+Por exemplo, se tenho um valor `int? a` e desejo verificar se esse valor é
+menor que um dado valor, por exemplo `20`, o que é que devo esperar quando o
+valor de `a` é nulo?
+

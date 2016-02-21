@@ -1,0 +1,125 @@
+Resposta curta
+==============
+
+Isso ocorre por causa de uma imprecisão na conversão do valor 1067.11 para a
+representação do número em memória... imprecisão esta, que é revelada ao
+subtrair o valor 1000.
+
+Resposta longa
+==============
+
+Fatores da imprecisão
+---------------------
+
+Imprecisões numéricas ocorrem por uma variedade de fatores,
+que decorrem da forma com que tais números são representados pelo computador.
+
+Números com ponto flutuante, nos sistemas modernos são geralmente
+representados de acordo com a norma
+[IEEE 754][2] de forma nativa. O javascript especificamente, [usa o `double`
+para representar todos os números][4].
+
+No caso do [`double`][1] da norma [IEEE 754][2], imprecisões são causadas por
+dois fatores:
+
+ - Quantidade de espaço para representar o número é finita. No caso corrente,
+   esta limitação não é o que causa a imprecisão.
+
+ - Base numérica do expoente é 2, que não pode ser alinhada com a base do
+   número original `1067.11` que está na base 10. Esse é o causador da
+   imprecisão no caso corrente.
+
+Para entender melhor temos de ver como exatamente é representado o tipo `double`.
+
+Componentes de um `double`
+--------------------------
+
+O [`double`][1] da norma [IEEE 754][2] é formado da seguinte maneira:
+
+ - sinal: 1 bit para o sinal
+
+ - expoente: inteiro de 11 bits,
+   para indicar o valor do expoente deslocado 1023 unidades, ou então
+   um dos dois valores com significados especiais:
+   0x000 para valores subnormais e zero;
+   0x7FF para representar infinito e NaN.
+   (i.e. 2<sup>x - 1023</sup>, onde x é o valor inteiro do campo)
+
+ - mantissa: 52 bits, para valores normais do expoente, representa um valor
+   racional que vai de 1.0 inclusive até 2.0 exclusive, matematicamente `[1, 2[`.
+   Para o valor do expoente 0x000, então representa valores subnormais (i.e.
+   menores que o menor valor normal representável) ou zero; Para o valor do
+   expoente 0x7FF representa infinito se for 0, ou NaN se for diferente de 0.
+
+Por que imprecisão aparece só após subtrair 1000
+------------------------------------------------
+
+Apesar de não parecer, o número 1067.11 **não pode ser representado exatamente**
+pelo javascript. Então como é que o javascript consegue converter esse número
+de volta para string, exatamente como "1067.11"?
+
+    alert(1067.11); // vai mostrar "1067.11", como é possível então?
+
+Isso ocorre pois a implementação do javascript é esperta... na hora de
+converter para string, mostra o valor **mais curto** que seria representável por
+este valor de `double`.
+
+Isso acontece pois um único valor de `double` resulta de várias conversões de
+string para double:
+
+    1067.1100000000000000000001
+    1067.11000000000000001
+    1067.11000000000001
+    1067.11
+    1067.10999999999978626875
+    1067.1099999999997862687453
+    1067.10999999999978626874509
+    1067.1099999999998999553285190717
+
+Ao escrever qualquer um dos números acima no console do chrome, o resultado é
+`1067.11`... pois esta é a string mais curta.
+
+**Mas a verdade é que você está sendo enganando!**
+
+ - O valor exato da string "1067.11" convertida para `double` é `1067.1099999999998999553285190717`.
+ 
+ - O valor exato menos 1000 é `67.1099999999998999553285190717`.
+ 
+ - O valor mais curto representável pelo double anterior é `67.1099999999999`.
+ 
+ - **Conclusão:**
+ 
+                                  1067.11 - 1000 == 67.1099999999999
+                                    é **EXATAMENTE** o mesmo que
+        1067.1099999999998999553285190717 - 1000 == 67.1099999999998999553285190717  
+
+Ou seja:
+
+        O que realmente acontece na memória  =>    O que é mostrado para você
+        1067.1099999999998999553285190717    =>    1067.11
+      - 1000                                 =>  - 1000
+        ---------------------------------          ------------------
+          67.1099999999998999553285190717    =>      67.1099999999999
+
+**Referências**
+
+Minhas fontes de informações e aprendizado:
+
+ - [Double-precision floating-point format][1]
+ - [IEEE floating point][2]
+ - [How to manually parse a floating point number from a string][3]
+ - [Does JavaScript have double floating point number precision?][4]
+ - [Everything you never wanted to know about JavaScript][5]
+ - [Floating point][6]
+ - [IEEE-754 Floating-Point Conversion][7]
+ - [Binary floating point and .NET][8]
+
+[1]: http://en.wikipedia.org/wiki/Double_precision_floating-point_format
+[2]: http://en.wikipedia.org/wiki/IEEE_754
+[3]: http://stackoverflow.com/questions/85223/how-to-manually-parse-a-floating-point-number-from-a-string
+[4]: http://stackoverflow.com/questions/3605925/does-javascript-have-double-floating-point-number-precision
+[5]: http://www.youtube.com/watch?v=MqHDDtVYJRI&list=PLyG7wDhlOL-nZBTZ7oFGgrDNpEowoo4PO&index=107
+[6]: http://en.wikipedia.org/wiki/Floating_point
+
+[7]: http://babbage.cs.qc.cuny.edu/IEEE-754.old/64bit.html
+[8]: http://www.yoda.arachsys.com/csharp/floatingpoint.html

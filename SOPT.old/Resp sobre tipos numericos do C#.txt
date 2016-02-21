@@ -1,0 +1,85 @@
+No .Net (assim como em várias outras linguagens), existe uma separação entre tipos inteiros e tipos racionais, então vou separar minha explicação desses tipos nessas duas categorias.
+
+Tipos Inteiros
+==============
+
+Existem vários tipos inteiros, novamente podem ser separados em dois grupos, os que aceitam valores negativos, e os que não aceitam valores negativos.
+
+**Aceitam Negativos (possuem sinal):** `Int32` é o mais comum, mas temos outros: `Int16`, `Int64` (não existe `Long`, mas sim o alias `long` no C#, que é o mesmo que `Int64`) e `SByte`.
+
+    │ Tipo  ║ Bits ║           Mínimo           ║            Máximo         ║ Alias C# ║ Literal │
+    ╞═══════╬══════╬════════════════════════════╬═══════════════════════════╬══════════╬═════════╡
+    │ SByte ║  8   ║ -128                       ║ 127                       ║  sbyte   ║         │
+    │ Int16 ║  16  ║ -32768                     ║ 32767                     ║  short   ║         │
+    │ Int32 ║  32  ║ -2.147.483.648             ║ 2.147.483.647             ║  int     ║    0    │
+    │ Int64 ║  64  ║ -9.223.372.036.854.775.808 ║ 9.223.372.036.854.775.807 ║  long    ║    0L   │
+    └───────╨──────╨────────────────────────────╨───────────────────────────╨──────────╨─────────┘
+
+<sup>As letras que aparecem nos literais, podem ser maiúsculas ou minúsculas: `0L` é o mesmo que `0l`.</sup>
+
+**Aceitam valores positivos apenas (sem sinal):**
+
+    │ Tipo   ║ Bits ║ Mínimo ║            Máximo          ║ Alias C# ║ Literal │
+    ╞════════╬══════╬════════╬════════════════════════════╬══════════╬═════════╡
+    │ Byte   ║  8   ║   0    ║ 255                        ║  byte    ║         │
+    │ UInt16 ║  16  ║   0    ║ 65535                      ║  ushort  ║         │
+    │ UInt32 ║  32  ║   0    ║ 4.294.967.295              ║  uint    ║   0U    │
+    │ UInt64 ║  64  ║   0    ║ 18.446.744.073.709.551.615 ║  ulong   ║   0UL   │
+    └─────═──╨──────╨────────╨────────────────────────────╨──────────╨─────────┘
+
+<sup>As letras que aparecem nos literais, podem ser maiúsculas ou minúsculas: `0UL` é o mesmo que `0ul`.</sup>
+
+
+Em termos de uso desses tipos, não há grande diferença de performance no uso de variáveis locais ou parâmetros de métodos. Geralmente se usa o tipo `Int32` (`int`) para esses usos, a não ser que os valores esperados excedam os limites do int, em cujo caso se usa `Int64` (`long`).
+
+Já o `Byte` (`byte`) só é usado mesmo para trabalhar com dados binários, nunca vi sendo usado em códigos que não sejam com este fim.
+
+Os outros tipos, geralmente só são usados em estruturas de dados `struct` ou `class` muito longas, ou então em arrays, de forma que ocupem menos memória... mas isso só faria sentido mesmo em estruturas muito usadas, ou em arrays muito grandes mesmo, da ordem de milhões ou até mesmo bilhões de itens.
+
+Além de tudo isso, vejo os tipos sem sinal (aqueles que só aceitam positivos) serem usados em operações bit-a-bit (chamadas comumente de bitwise), pela facilidade de se trabalhar com todos os bits dos mesmo, o que é mais difícil quando há o bit de sinal.
+
+Tipos Racionais
+===============
+
+Há apenas 3 desses no .Net: `Single`, `Double` e `Decimal`.
+
+    │   Tipo   ║     Single    ║      Double               ║      Decimal                            │
+    ╞══════════╬═══════════════╬═══════════════════════════╬═════════════════════════════════════════╡
+    │ Alias C# ║     float     ║      double               ║      decimal                            │
+    │ Mínimo   ║ -3.402823e+38 ║  -1.7976931348623157e+308 ║ -79.228.162.514.264.337.593.543.950.335 │
+    │ Máximo   ║  3.402823e+38 ║   1.7976931348623157e+308 ║  79.228.162.514.264.337.593.543.950.335 │
+    │ Literal  ║    0f         ║   0.0  ou  0d             ║     0m                                  │
+    │ Base Exp.║    2          ║    2                      ║     10                                  │
+    └──────────╨───────────────╨───────────────────────────╨─────────────────────────────────────────┘
+
+<sup>As letras que aparecem nos literais, podem ser maiúsculas ou minúsculas: `0M` é o mesmo que `0m`.</sup>
+
+Os tipos de base 2 (`Single` e `Double`), são operados por instruções do próprio processador, em uma
+unidade chamada de FPU (floating-point unit)... e que nos processadores atuais
+são tão otimizados, que as operações matemáticas com pontos flutuantes chegam
+a ser tão rápidas quanto com tipos inteiros.
+
+Os tipos `Single` e `Double` são usados quando não há de se ter correspondência
+exata com números decimais em uma fração. Exemplos: cálculos que envolvem a
+física, usadas na engenharia ou nas simulações feitas em jogos, usam estes tipos.
+
+Em termos de performance os tipos `Single` e `Double` são iguais nas máquinas
+atuais, pois a FPU converte ambos internamente para 80-bits. Então a única vantagem
+real em se usar `Single` é em termos de uso de memória.
+
+O tipo `Decimal` existe para dar suporte a operações que devem ter correspondência
+exata com frações decimais do mundo real, com quando trabalhando com valores
+monetários... inclusive, acho que o `M` do literal vem de money (mas isso eu estou
+especulando).
+
+O tipo `Decimal` possui 128 bits, dos quais 96 são usados para representar o valor interno
+chamado de mantissa, e os outros são usados para indicar um divisor de base 10...
+é praticamente um expoente, igual o que existe para os de base 2, só que na base 10
+e apenas negativos. Portanto, o `Decimal` não é capaz de representar números
+tão grandes como o `Single` e o `Double` (pois esses dois aceitam expoentes positivos).
+Em compensação, o tipo `Decimal` possui uma precisão absurdamente maior.
+
+Em termos de performance, o tipo `Decimal` é muito ruim, se comparado aos tipos
+de base-2, pois todas as operações matemáticas são feitas na ALU (Arithmetic logic unit),
+e por isso são subdivididas em várias estapas de cálculos independemente da operação
+sendo feita.

@@ -1,0 +1,30 @@
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            var $check = $("#checkAnonimo");
+            $check.on("change", function () {
+                var anonimo = $check.is(":checked");
+                anonimo ? $("#camposAnonimo").hide() : $("#camposAnonimo").show();
+                $("#camposAnonimo input").prop("disabled", anonimo);
+            });
+        });
+    </script>
+
+    <style type="text/css">
+    </style>
+</head>
+    <body>
+        <form action="" method="POST">
+            <div><label for="textOpiniao">Escreva sua opinião:<br/></label><textarea id="textOpiniao">Sua opinião aqui!</textarea></div>
+            <label for="checkAnonimo"><input type="checkbox" id="checkAnonimo"/> Anônimo?</label>
+            <div id="camposAnonimo">
+                <div><label for="textNome">Nome: <input type="text" name="nome" id="textNome"/></label></div>
+                <div><label for="textEndereco">Endereço: <input type="text" name="endereco" id="textEndereco"/></label></div>
+            </div>
+            <div><input type="submit" value="Enviar"/></div>
+        </form>
+    </body>
+</html>
