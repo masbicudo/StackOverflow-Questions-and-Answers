@@ -210,3 +210,8 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/TeX/*/*.aux
+/TeX/*/*.log
+/TeX/*/*.fls
+/TeX/*/*.fdb_latexmk
+/TeX/*/*.gz

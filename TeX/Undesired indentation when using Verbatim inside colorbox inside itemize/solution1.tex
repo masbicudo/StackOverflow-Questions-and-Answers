@@ -1,0 +1,49 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[dvipsnames]{xcolor}
+\definecolor{codebgcolor}{cmyk}{0,0.01,0.1,0}
+
+\usepackage{xfp}
+\makeatletter\def\autogobble{\fpeval{(\@itemdepth+\@enumdepth+1)}}\makeatother
+
+% SOLUTION START
+\usepackage{fvextra}
+\makeatletter
+\let\oldv\Verbatim
+\def\Verbatim{%
+	\setbox0\vbox\bgroup\oldv%
+}
+\def\unindent{%
+	\hspace{-\dimexpr\leftmargin*(\@itemdepth+\@enumdepth)\relax}%
+}
+\let\oldendv\endVerbatim
+\def\endVerbatim{%
+	\oldendv\egroup\fboxsep0pt \par\colorbox{codebgcolor}{%
+		\parbox{\linewidth}{%
+			\unindent\usebox0%
+		}%
+	}\par%
+}
+\makeatother
+% SOLUTION END
+
+\begin{document}
+	\begin{itemize}
+		\item
+		Some text here... I want to keep writing so that the text
+		wraps to the next line, and we can see what is the line
+		width.
+		\begin{Verbatim}[gobble=\autogobble]
+		This is OK!
+		\end{Verbatim}
+		Some more text
+		\begin{itemize}
+			\item
+			sub text
+			\begin{Verbatim}[gobble=\autogobble]
+			Also OK!
+			\end{Verbatim}
+		\end{itemize}
+	\end{itemize}
+\end{document}

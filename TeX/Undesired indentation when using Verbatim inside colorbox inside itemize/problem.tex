@@ -1,0 +1,48 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fvextra}
+\usepackage{xintexpr}
+
+\definecolor{bgcolor}{cmyk}{0,0.01,0.1,0}
+
+\begin{document}
+	\begin{itemize}
+	\item
+		Some text here... I want to keep writing so that the text wraps to the next line.
+		This is needed, because I want to see where the line ends, and know what is the line width.
+		
+		\begin{Verbatim}[gobble=2]
+		This is OK! But I want a bgcolor...
+		\end{Verbatim}
+		
+		\setbox0\vbox\bgroup
+		\begin{Verbatim}[gobble=2]
+		This has an extra indent, and also the right side goes
+		beyond the line width... BAD
+		\end{Verbatim}
+		\egroup\fboxsep0pt \colorbox{bgcolor}{\usebox0}
+		
+		\setbox0\vbox\bgroup
+		\begin{Verbatim}[gobble=2]
+		I was unable to find a way to un-indent this text
+		\end{Verbatim}
+		\egroup\fboxsep0pt \colorbox{bgcolor}{\parbox{\linewidth}{\usebox0}}
+	
+		Some more text
+		
+		\begin{itemize}
+		\item
+			sub text
+			
+			\setbox0\vbox\bgroup
+			\begin{Verbatim}[gobble=3]
+			Indentation proportional to item level,
+			but the colorbox is already indented.
+			\end{Verbatim}
+			\egroup\fboxsep0pt \colorbox{bgcolor}{\parbox{\linewidth}{\usebox0}}
+	
+		\end{itemize}
+	\end{itemize}
+
+\end{document}
