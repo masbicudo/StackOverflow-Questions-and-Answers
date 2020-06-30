@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{pmboxdraw}
+\usepackage{newunicodechar}
+\newunicodechar{┗}{\textSFii}
+\newunicodechar{┣}{\textSFviii}
+\newunicodechar{┃}{\textSFxi}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,breakable,skins}
+\lstset{%
+	literate={┗}{\textSFii}1
+	{┣}{\textSFviii}1
+	{┃}{\textSFxi}1
+}
+\definecolor{codebgcolor}{cmyk}{0,0.05,0.05,0}
+\newtcblisting{coloredlisting}{
+	breakable,enhanced,
+	listing only,
+	frame hidden,
+	colback=codebgcolor,
+	% == indented nested Verbatim ==
+	grow to left by=0pt,
+	left=0pt,
+	grow to right by=0pt,
+	right=0pt,
+	arc=0pt
+}
+\begin{document}
+	\begin{verbatim}
+	┣ a
+	┗ b
+	\end{verbatim}
+	
+	\begin{coloredlisting}
+	┣ a
+	┗ b
+	\end{coloredlisting}
+	
+\end{document}

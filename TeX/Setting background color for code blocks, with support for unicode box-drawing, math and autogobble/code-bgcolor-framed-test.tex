@@ -1,0 +1,43 @@
+\documentclass[
+a4paper,
+]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage{fvextra}
+
+\usepackage{pmboxdraw}
+\usepackage{newunicodechar}
+\newunicodechar{┗}{\textSFii}
+\newunicodechar{┣}{\textSFviii}
+\newunicodechar{┃}{\textSFxi}
+
+\definecolor{codebgcolor}{cmyk}{0,0.02,0.03,0}
+
+\let\oldv\Verbatim
+\def\Verbatim{%
+    \definecolor{shadecolor}{cmyk}{0,0.02,0.03,0}%
+    \csname snugshade*\endcsname \oldv
+}
+\let\oldendv\endVerbatim
+\def\endVerbatim{%
+  \oldendv \csname endshaded*\endcsname
+}
+
+\usepackage{xfp}
+\makeatletter
+\def\autogobble{\fpeval{2(\@itemdepth+\@enumdepth)}}
+\makeatother
+
+\begin{document}
+\begin{itemize}
+\item xpto
+  \begin{Verbatim}[commandchars=\\\{\}, mathescape, gobble=\autogobble]
+  ┣ a $a$
+  ┗ b
+  \end{Verbatim}
+\end{itemize}
+\end{document}
